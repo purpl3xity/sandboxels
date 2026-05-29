@@ -58,4 +58,4 @@ elements.pig_iron = {
     },
     density: 7800
 }
-generateMolten(1150, pig_iron)
+generateMolten(1150, "pig_iron")
