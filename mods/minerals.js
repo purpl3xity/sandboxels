@@ -19,6 +19,19 @@ function generateMolten(tempHigh, elementName) {
     elements[elementName].stateHigh = "molten_" + elementName;
 }
 
+// Intermediates
+elements.pig_iron = {
+    color: ["#7e7e7e","#525252"],
+	behavior: behaviors.POWDER,
+    category: "powders",
+    state: "solid",
+    reactions: {
+        "oxygen": {elem1: "steel", elem2: "carbon_dioxide", tempMin: 400}
+    },
+    density: 7800
+}
+generateMolten(1150, "pig_iron")
+
 // Minerals
 elements.hematite = {
     color: ["#c55a4a", "#934033", "#3e1a15", "#281714", "#140f0e"],
@@ -46,16 +59,3 @@ elements.magnetite = {
     density: 5170
 }
 generateMolten(1600, "magnetite");
-
-// Intermediates
-elements.pig_iron = {
-    color: ["#7e7e7e","#525252"],
-	behavior: behaviors.POWDER,
-    category: "powders",
-    state: "solid",
-    reactions: {
-        "oxygen": {elem1: "steel", elem2: "carbon_dioxide", tempMin: 400}
-    },
-    density: 7800
-}
-generateMolten(1150, "pig_iron")
