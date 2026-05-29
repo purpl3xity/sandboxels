@@ -10,7 +10,7 @@ function generateMolten(tempHigh, elementName) {
         category: "states",
         state: "liquid",
         hidden: true,
-        density: elements[elementName] * 0.8,
+        density: elements[elementName].density * 0.8,
         tempLow: tempHigh,
         stateLow: elementName
     }
