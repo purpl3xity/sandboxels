@@ -1,4 +1,7 @@
 // Intended for use with morechemistry.js, chem.js, and nousersthings.js
+dependOn("chem.js", function(){});
+dependOn("morechemistry.js", function(){});
+dependOn("nousersthings.js", function(){});
 
 // Auto generate states.
 function generateMolten(tempHigh, elementName) {
@@ -7,6 +10,7 @@ function generateMolten(tempHigh, elementName) {
         category: "states",
         state: "liquid",
         hidden: true,
+        density: elements[elementName] * 0.8,
         tempLow: tempHigh,
         stateLow: elementName
     }
@@ -26,7 +30,8 @@ elements.hematite = {
     reactions: {
         "charcoal": {elem1: "pig_iron", elem2: "carbon_dioxide", tempMin: 600},
         "hydrogen": {elem1: "iron", elem2: "steam", tempMin: 800, temp2: 400}
-    }
+    },
+    density: 5260
 }
 
 elements.magnetite = {
@@ -37,7 +42,8 @@ elements.magnetite = {
     reactions: {
         "charcoal": { elem1: "pig_iron", elem2: "carbon_dioxide", tempMin: 400},
         "hydrogen": {elem1: "iron", elem2: "steam", tempMin: 600, temp2: 300}
-    }
+    },
+    density: 5170
 }
 generateMolten(1600, "magnetite");
 
@@ -49,6 +55,7 @@ elements.pig_iron = {
     state: "solid",
     reactions: {
         "oxygen": {elem1: "steel", elem2: "carbon_dioxide", tempMin: 400}
-    }
+    },
+    density: 7800
 }
 generateMolten(pig_iron)
