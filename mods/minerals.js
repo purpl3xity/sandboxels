@@ -3,22 +3,6 @@ dependOn("chem.js", function(){});
 dependOn("morechemistry.js", function(){});
 dependOn("nousersthings.js", function(){});
 
-// Auto generate states.
-function generateMolten(tempHigh, elementName) {
-    elements["molten_" + elementName] = {
-        behavior: behavior.MOLTEN,
-        category: "states",
-        state: "liquid",
-        hidden: true,
-        density: elements[elementName].density * 0.8,
-        tempLow: tempHigh,
-        stateLow: elementName
-    }
-
-    elements[elementName].tempHigh = tempHigh;
-    elements[elementName].stateHigh = "molten_" + elementName;
-}
-
 // Intermediates
 elements.pig_iron = {
     color: ["#7e7e7e","#525252"],
@@ -28,9 +12,10 @@ elements.pig_iron = {
     reactions: {
         "oxygen": {elem1: "steel", elem2: "carbon_dioxide", tempMin: 400}
     },
-    density: 7800
+    density: 7800,
+	tempHigh: 1150,
+	forceAutoGen: true
 }
-generateMolten(1150, "pig_iron")
 
 // Minerals
 elements.hematite = {
@@ -56,6 +41,21 @@ elements.magnetite = {
         "charcoal": { elem1: "pig_iron", elem2: "carbon_dioxide", tempMin: 400},
         "hydrogen": {elem1: "iron", elem2: "steam", tempMin: 600, temp2: 300}
     },
-    density: 5170
+    density: 5170,
+	tempHigh: 1600,
+	forceAutoGen: true
 }
-generateMolten(1600, "magnetite");
+
+elements.malachite = {
+	color: ["#5db987", "#137736", "#0a421e", "#3e985e"],
+	behavior: behaviors.POWDER,
+	category: "land",
+	state: "solid",
+	reactions: {
+		"sulfuric_acid": {elem1: "copper_sulfate", elem2:["water", "carbon_dioxide"]},
+		"charcoal": {elem1: "copper", elem2: "carbon_dioxide", tempMin: 500}
+	},
+	tempHigh: 600,
+	stateHigh: ["oxidised_copper", "carbon_dioxide"],
+	density: 3800
+}
