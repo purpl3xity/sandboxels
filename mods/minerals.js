@@ -194,7 +194,7 @@ elements.granite = {
     state: "solid",
     density: 2750
 }
-meltsToMagma("granite");
+//meltsToMagma("granite");
 
 elements.andesite = {
 	color: ["#a1a1a1", "#858585", "#4d4f50",],
