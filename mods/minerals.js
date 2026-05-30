@@ -10,7 +10,7 @@ elements.pig_iron = {
     category: "powders",
     state: "solid",
     reactions: {
-        "oxygen": {elem1: "steel", elem2: "carbon_dioxide", tempMin: 400}
+        "oxygen": {elem1: "steel", elem2: "carbon_dioxide", tempMin: 400, chance:0.75}
     },
     density: 7800,
 	tempHigh: 1150,
@@ -18,7 +18,7 @@ elements.pig_iron = {
 }
 
 // Chemical intermediates
-elements.sodium.reactions["alcohol"] = {elem1:"sodium_ethoxide", elem2:"hydrogen"};
+elements.sodium.reactions["alcohol"] = {elem1:"sodium_ethoxide", elem2:"hydrogen", chance:0.5};
 
 elements.sodium_ethoxide = {
 	color: "#ebebeb",
@@ -28,7 +28,7 @@ elements.sodium_ethoxide = {
     tempHigh: 300,
 	stateHigh: ["ethylene", "sodium_hydroxide", "charcoal"],
     reactions: {
-        "carbon_disulfide": {elem1: "sodium_ethyl_xanthate"},
+        "carbon_disulfide": {elem1: "sodium_ethyl_xanthate",elem2:null,chance:0.2},
 		"water": {elem1: "sodium_hydroxide", elem2: "ethanol", temp1: 20, temp2: 20}
     },
     density: 300
@@ -83,8 +83,8 @@ elements.hematite = {
     tempHigh: 1380,
     stateHigh: ["magnetite", "oxygen"],
     reactions: {
-        "charcoal": {elem1: "pig_iron", elem2: "carbon_dioxide", tempMin: 600},
-        "hydrogen": {elem1: "iron", elem2: "steam", tempMin: 800}
+        "charcoal": {elem1: "pig_iron", elem2: "carbon_dioxide", tempMin: 600, chance:0.25},
+        "hydrogen": {elem1: "iron", elem2: "steam", tempMin: 800, chance: 0.1}
     },
     density: 5260
 }
@@ -109,7 +109,7 @@ elements.cassiterite = {
 	category: "land",
 	state: "solid",
 	reactions: {
-		"charcoal": {elem1: "tin", elem2: "carbon_dioxide", tempMin: 600}
+		"charcoal": {elem1: "tin", elem2: "carbon_dioxide", tempMin: 600, chance: 0.25}
 	},
 	tempHigh: 1625,
 	density: 7150
@@ -123,8 +123,8 @@ elements.malachite = {
 	category: "land",
 	state: "solid",
 	reactions: {
-		"sulfuric_acid": {elem1: "copper_sulfate", elem2:["water", "carbon_dioxide"]},
-		"charcoal": {elem1: "copper", elem2: "carbon_dioxide", tempMin: 500}
+		"sulfuric_acid": {elem1: "copper_sulfate", elem2:["water", "carbon_dioxide"], chance: 0.5},
+		"charcoal": {elem1: "copper", elem2: "carbon_dioxide", tempMin: 500, chance: 0.25}
 	},
 	tempHigh: 600,
 	stateHigh: ["oxidised_copper", "carbon_dioxide"],
@@ -141,7 +141,7 @@ elements.sphalerite = {
     density: 4000,
     tempHigh: 1180,
     reactions: {
-        "charcoal": {elem1: "zinc", elem2: "sulfur_dioxide", tempMin: 700}
+        "charcoal": {elem1: "zinc", elem2: "sulfur_dioxide", tempMin: 700, chance: 0.25}
     }
 }
 
@@ -153,7 +153,7 @@ elements.galena = {
     density: 7500,
     tempHigh: 1110,
     reactions: {
-        "charcoal": {elem1: "lead", elem2: "sulfur_dioxide", tempMin: 500}
+        "charcoal": {elem1: "lead", elem2: "sulfur_dioxide", tempMin: 500, chance: 0.25}
     }
 }
 
@@ -166,3 +166,78 @@ elements.scheelite = {
     state: "solid",
     density: 6000
 } // I'm tired, boss
+
+// Rocks
+
+function applyPorosity(pixel) {
+    if (Math.random() < elements[pixel.element].porosity) {
+        deletePixel(pixel.x, pixel.y);
+    }
+}
+
+function makePorous(element) {
+    elements[element].onPlace = applyPorosity(pixel);
+}
+
+function meltsToMagma(element) {
+    elements[element].tempHigh = 1200;
+    elements[element].stateHigh = elements.magma;
+    // I'm so lazy
+}
+
+// Igneous //
+
+elements.granite = {
+    color: ["#685c5d", "#ac8084", "#8f7374",],
+    behavior: behaviors.SUPPORTPOWDER,
+    category: "land",
+    state: "solid",
+    density: 2750
+}
+meltsToMagma("granite");
+
+elements.andesite = {
+	color: ["#a1a1a1", "#858585", "#4d4f50",],
+    behavior: behaviors.SUPPORTPOWDER,
+    category: "land",
+    state: "solid",
+    density: 2500,
+	porosity: 0.02
+}
+makePorous("andesite");
+meltsToMagma("andesite");
+
+elements.dacite = {
+	color: ["#adadad", "#8f948c", "#afa39e",],
+    behavior: behaviors.SUPPORTPOWDER,
+    category: "land",
+    state: "solid",
+    density: 2550,
+	porosity: 0.015
+}
+makePorous("dacite");
+meltsToMagma("dacite");
+
+// Sedimentary //
+
+elements.chert = {
+    color: ["#a73f1c", "#bd4720", "#dd3933",],
+    behavior: behaviors.SUPPORTPOWDER,
+    category: "land",
+    state: "solid",
+    density: 2700,
+    porosity: 0.01 // This is the chacne it'll have an empty pixel
+}
+makePorous("chert");
+meltsToMagma("chert");
+
+// Metamorphic //
+
+elements.marble = {
+    color: ["#e6e3e2", "#c0bcbd", "#928e8e",],
+    behavior: behaviors.SUPPORTPOWDER,
+    category: "land",
+    state: "solid",
+    density: 2800
+}
+meltsToMagma("marble");
