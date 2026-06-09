@@ -239,6 +239,8 @@ elements.shale = {
     density: 2200,
     porosity: 0.2
 }
+makePorous("shale");
+meltsToMagma("shale");
 
 // Metamorphic //
 
