@@ -231,6 +231,15 @@ elements.chert = {
 makePorous("chert");
 meltsToMagma("chert");
 
+elements.shale = {
+    color: ["#959ea1", "#545763", "#84848b",],
+    behavior: behaviors.SUPPORTPOWDER,
+    category: "land",
+    state: "solid",
+    density: 2200,
+    porosity: 0.2
+}
+
 // Metamorphic //
 
 elements.marble = {
